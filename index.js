@@ -1,6 +1,7 @@
 const express = require("express");
 // bodyParser is deprecated, instead I used express.urlencoded
 // const bodyParser = require("body-parser");
+const usersRepo = require("./repositories/users");
 
 const app = express();
 app.use(express.urlencoded({ extended: true }));
@@ -18,8 +19,15 @@ app.get("/", (req, res) => {
   `);
 });
 
-app.post("/", (req, res) => {
-  console.log(req.body);
+app.post("/", async (req, res) => {
+  const { email, password, passwordConfirmation } = req.body;
+
+  const existingUser = await usersRepo.getOneBy({ email });
+  if (existingUser) return res.send("Email is in use!");
+
+  if (password !== passwordConfirmation)
+    return res.send("Password must match!");
+
   res.send("Account created!!");
 });
 
