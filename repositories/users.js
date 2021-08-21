@@ -13,6 +13,13 @@ class UsersRepository {
       fs.writeFileSync(this.filename, "[]");
     }
   }
+
+  async getAll() {
+    const contents = await fs.promises.readFile(this.filename, {
+      encoding: "utf-8",
+    });
+    console.log(contents);
+  }
 }
 
 new UsersRepository("users.json");
