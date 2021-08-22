@@ -1,14 +1,21 @@
 const express = require("express");
 // bodyParser is deprecated, instead I used express.urlencoded
 // const bodyParser = require("body-parser");
+const cookieSession = require("cookie-session");
 const usersRepo = require("./repositories/users");
 
 const app = express();
 app.use(express.urlencoded({ extended: true }));
+app.use(
+  cookieSession({
+    keys: ["n34ias8lf"],
+  })
+);
 
-app.get("/", (req, res) => {
+app.get("/signup", (req, res) => {
   res.send(`
     <div>
+      Your ID is: ${req.session.userId}
       <form method="POST">
         <input name="email" placeholder="email" />
         <input name="password" placeholder="passoword" />
@@ -19,7 +26,7 @@ app.get("/", (req, res) => {
   `);
 });
 
-app.post("/", async (req, res) => {
+app.post("/signup", async (req, res) => {
   const { email, password, passwordConfirmation } = req.body;
 
   const existingUser = await usersRepo.getOneBy({ email });
@@ -27,6 +34,9 @@ app.post("/", async (req, res) => {
 
   if (password !== passwordConfirmation)
     return res.send("Password must match!");
+
+  const user = await usersRepo.create({ email, password });
+  req.session.userId = user.id;
 
   res.send("Account created!!");
 });
