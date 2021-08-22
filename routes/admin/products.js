@@ -1,5 +1,7 @@
 const express = require("express");
 
+const ProductsRepo = require("../../repositories/products");
+
 const router = express.Router();
 
 router.get("/admin/products", (req, res) => {});
