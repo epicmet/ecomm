@@ -2,7 +2,7 @@ const express = require("express");
 const { validationResult } = require("express-validator");
 const multer = require("multer");
 
-const ProductsRepo = require("../../repositories/products");
+const productsRepo = require("../../repositories/products");
 const productsNewTemplate = require("../../views/admin/products/new");
 const { requireTitle, requirePrice } = require("./validators");
 
