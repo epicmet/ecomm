@@ -122,3 +122,4 @@ dist
 # Json repositories
 users.json
 products.json
+carts.json
