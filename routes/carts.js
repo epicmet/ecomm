@@ -21,7 +21,7 @@ router.post("/cart/products", async (req, res) => {
   if (existingItem) {
     existingItem.quantity++;
   } else {
-    cart.items.push({ id: req.body.productId, quanity: 1 });
+    cart.items.push({ id: req.body.productId, quantity: 1 });
   }
   await cartsRepo.update(cart.id, {
     items: cart.items,
